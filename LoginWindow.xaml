@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfApp1.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Авторизація" Height="680" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Background="#F0F4F8">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBlock Text="Вхід до системи" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+            <Label Content="Логін:" HorizontalAlignment="Left"/>
+            <TextBox x:Name="txtLogin" Height="30" Width="300" Margin="0,0,0,10"/>
+
+            <Label Content="Пароль:" HorizontalAlignment="Left"/>
+            <PasswordBox x:Name="txtPassword" Height="30" Width="300" Margin="0,0,0,20"/>
+
+            <Button Content="Вхід" Click="BtnLogin_Click" Height="35" Width="300" Margin="0,0,0,10"/>
+            <Button Content="Реєстрація" Click="BtnOpenRegister_Click" Background="#6C757D" Height="35" Width="300"/>
+        </StackPanel>
+    </Grid>
+</Window>

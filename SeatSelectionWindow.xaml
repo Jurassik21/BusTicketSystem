@@ -1,0 +1,101 @@
+﻿<Window x:Class="WpfApp1.SeatSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Вибір місця в автобусі" Height="680" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid Margin="15" Background="#F0F4F8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Схема салону автобуса" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="Зелені — вільні, Сірі — зайняті" FontSize="12" HorizontalAlignment="Center" Foreground="Gray"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Width="300" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Водій" VerticalAlignment="Center" FontSize="11" Foreground="Gray"/>
+                <Button Grid.Row="0" Grid.Column="4" Content="42" Background="Gray" Foreground="White" IsEnabled="False" Margin="2"/>
+
+                <Button Grid.Row="1" Grid.Column="0" Content="4" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="1" Grid.Column="1" Content="3" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="1" Grid.Column="3" Content="2" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="1" Grid.Column="4" Content="1" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="2" Grid.Column="0" Content="8" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="2" Grid.Column="1" Content="7" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="2" Grid.Column="3" Content="6" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="2" Grid.Column="4" Content="5" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="3" Grid.Column="0" Content="12" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="3" Grid.Column="1" Content="11" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="3" Grid.Column="3" Content="10" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="3" Grid.Column="4" Content="9" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="4" Grid.Column="0" Content="16" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="4" Grid.Column="1" Content="15" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="4" Grid.Column="3" Content="14" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="4" Grid.Column="4" Content="13" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="5" Grid.Column="0" Content="18" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="5" Grid.Column="1" Content="17" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Border Grid.Row="5" Grid.Column="3" Background="LightGray" CornerRadius="3" Margin="2">
+                    <TextBlock Text="Двері" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Foreground="DarkGray"/>
+                </Border>
+
+                <Button Grid.Row="6" Grid.Column="0" Content="20" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="6" Grid.Column="1" Content="19" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="6" Grid.Column="3" Content="24" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="6" Grid.Column="4" Content="23" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="7" Grid.Column="0" Content="22" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="7" Grid.Column="1" Content="21" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="7" Grid.Column="3" Content="28" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="7" Grid.Column="4" Content="27" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="8" Grid.Column="0" Content="26" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="8" Grid.Column="1" Content="25" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="8" Grid.Column="3" Content="32" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="8" Grid.Column="4" Content="31" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="9" Grid.Column="0" Content="30" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="9" Grid.Column="1" Content="29" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="9" Grid.Column="3" Content="36" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="9" Grid.Column="4" Content="35" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+
+                <Button Grid.Row="11" Grid.Column="0" Content="41" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="11" Grid.Column="1" Content="40" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="11" Grid.Column="2" Content="39" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="11" Grid.Column="3" Content="38" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+                <Button Grid.Row="11" Grid.Column="4" Content="37" Background="Green" Foreground="White" Click="Seat_Click" Margin="2"/>
+            </Grid>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Content="Забронювати обране місце" Height="40" Margin="0,15,0,0" 
+                Background="#28A745" Foreground="White" FontWeight="Bold" Click="BtnBook_Click"/>
+    </Grid>
+</Window>
