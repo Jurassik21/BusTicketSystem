@@ -10,28 +10,34 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-        private void BtnRegister_Click(object sender, RoutedEventArgs e)
+        private async void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(txtRegLogin.Text) || string.IsNullOrEmpty(txtRegPassword.Password))
+                string login = txtLogin.Text.Trim();
+                string password = txtPassword.Password.Trim();
+
+                if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 {
-                    MessageBox.Show("Заповніть обов'язкові поля!", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Будь ласка, заповніть усі поля!", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
-                if (txtRegPassword.Password != txtRegConfirmPassword.Password)
-                {
-                    MessageBox.Show("Паролі не збігаються!", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+                string response = await TcpClientService.SendRequestAsync($"REGISTER;{login};{password}");
 
-                MessageBox.Show("Реєстрація успішна!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                if (response == "SUCCESS")
+                {
+                    MessageBox.Show("Реєстрація пройшла успішно!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show(response, "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Помилка при реєстрації: {ex.Message}", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -6,83 +6,114 @@ namespace WpfApp1
 {
     public partial class AdminWindow : Window
     {
-        private List<RouteModel> adminRoutes = new List<RouteModel>();
-
         public AdminWindow()
         {
             InitializeComponent();
-            LoadRoutes();
+            LoadAdminRoutes();
         }
 
-        private void LoadRoutes()
-        {
-            adminRoutes = new List<RouteModel>
-            {
-                new RouteModel { DepartureCity = "Львів", ArrivalCity = "Київ", DepartureTime = "2026-10-15 08:00" },
-                new RouteModel { DepartureCity = "Львів", ArrivalCity = "Тернопіль", DepartureTime = "2026-10-15 10:30" }
-            };
-            lvAdminRoutes.ItemsSource = adminRoutes;
-        }
-
-        private void BtnAddRoute_Click(object sender, RoutedEventArgs e)
+        private async void LoadAdminRoutes()
         {
             try
             {
-                string dep = txtDeparture.Text.Trim();
-                string arr = txtArrival.Text.Trim();
-                string time = txtTime.Text.Trim();
-
-                if (string.IsNullOrEmpty(dep) || string.IsNullOrEmpty(arr))
+                string serverResponse = await TcpClientService.SendRequestAsync("GET_ROUTES");
+                if (string.IsNullOrEmpty(serverResponse) || serverResponse.StartsWith("ERROR") || serverResponse == "EMPTY")
                 {
-                    MessageBox.Show("Будь ласка, заповніть міста відправлення та прибуття!", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    lvAdminRoutes.ItemsSource = null;
                     return;
                 }
 
-                adminRoutes.Add(new RouteModel { DepartureCity = dep, ArrivalCity = arr, DepartureTime = time });
+                List<RouteModel> routes = new List<RouteModel>();
+                string[] items = serverResponse.Split(';');
 
-                lvAdminRoutes.ItemsSource = null;
-                lvAdminRoutes.ItemsSource = adminRoutes;
+                foreach (var item in items)
+                {
+                    if (string.IsNullOrWhiteSpace(item)) continue;
+                    int firstDash = item.IndexOf('-');
+                    int dateStartIdx = item.IndexOf("-202");
 
-                txtDeparture.Clear();
-                txtArrival.Clear();
-                MessageBox.Show("Маршрут успішно додано!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (firstDash > 0 && dateStartIdx > firstDash)
+                    {
+                        routes.Add(new RouteModel
+                        {
+                            DepartureCity = item.Substring(0, firstDash),
+                            ArrivalCity = item.Substring(firstDash + 1, dateStartIdx - (firstDash + 1)),
+                            DepartureTime = item.Substring(dateStartIdx + 1)
+                        });
+                    }
+                }
+                lvAdminRoutes.ItemsSource = routes;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка: {ex.Message}");
+                MessageBox.Show(ex.Message);
             }
         }
 
-        private void BtnDeleteRoute_Click(object sender, RoutedEventArgs e)
+        private async void BtnAddRoute_Click(object sender, RoutedEventArgs e)
         {
-            try
+            string dep = txtDepCity.Text.Trim();
+            string arr = txtArrCity.Text.Trim();
+            string time = txtTime.Text.Trim();
+
+            if (string.IsNullOrEmpty(dep) || string.IsNullOrEmpty(arr) || string.IsNullOrEmpty(time))
             {
-                if (lvAdminRoutes.SelectedItem is RouteModel selectedRoute)
-                {
-                    adminRoutes.Remove(selectedRoute);
-
-                    // Оновлюємо відображення списку
-                    lvAdminRoutes.ItemsSource = null;
-                    lvAdminRoutes.ItemsSource = adminRoutes;
-
-                    MessageBox.Show("Маршрут успішно видалено!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Будь ласка, виберіть маршрут зі списку для видалення!", "Попередження", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
+                MessageBox.Show("Заповніть усі поля!");
+                return;
             }
-            catch (Exception ex)
+
+            string response = await TcpClientService.SendRequestAsync($"ADD_ROUTE;{dep};{arr};{time}");
+            if (response == "SUCCESS")
             {
-                MessageBox.Show($"Помилка: {ex.Message}");
+                MessageBox.Show("Маршрут додано!");
+                LoadAdminRoutes(); // Оновлюємо список
             }
         }
 
-        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        private async void BtnDeleteRoute_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow loginWin = new LoginWindow();
-            loginWin.Show();
-            this.Close();
+            if (lvAdminRoutes.SelectedItem is RouteModel selectedRoute)
+            {
+                string response = await TcpClientService.SendRequestAsync($"DELETE_ROUTE;{selectedRoute.DepartureCity};{selectedRoute.ArrivalCity};{selectedRoute.DepartureTime}");
+                if (response == "SUCCESS")
+                {
+                    MessageBox.Show("Маршрут видалено!");
+                    LoadAdminRoutes(); // Оновлюємо список
+                }
+            }
+            else
+            {
+                MessageBox.Show("Оберіть маршрут для видалення!");
+            }
+        }
+
+        private async void BtnDeleteUser_Click(object sender, RoutedEventArgs e)
+        {
+            string username = txtUsernameToDelete.Text.Trim();
+
+            if (string.IsNullOrEmpty(username))
+            {
+                MessageBox.Show("Введіть логін користувача для видалення!", "Увага", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (username.ToLower() == "admin")
+            {
+                MessageBox.Show("Не можна видалити головного адміністратора!", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string response = await TcpClientService.SendRequestAsync($"DELETE_USER;{username}");
+
+            if (response == "SUCCESS")
+            {
+                MessageBox.Show($"Користувача '{username}' успішно видалено з бази даних!", "Успіх", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtUsernameToDelete.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Помилка видалення або такого користувача не існує.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
